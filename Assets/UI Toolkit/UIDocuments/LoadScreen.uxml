@@ -1,0 +1,15 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="MainContainer" style="flex-grow: 1;">
+        <ui:VisualElement name="Header" style="height: 10%; align-items: center; justify-content: center;">
+            <ui:Label text="Maze Tower Wars" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/Playwrite_NZ_Basic/PlaywriteNZBasic-VariableFont_wght.ttf?fileID=12800000&amp;guid=9f1c027b7e36c74479be3a604a7c3fd8&amp;type=3#PlaywriteNZBasic-VariableFont_wght&quot;); -unity-font-style: bold-and-italic; font-size: 35px; -unity-text-align: upper-left; -unity-text-outline-color: rgb(103, 255, 81); -unity-text-outline-width: 1px; letter-spacing: 6px;"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="Center" style="flex-grow: 1; align-items: center; justify-content: center;">
+            <ui:VisualElement name="Buttons" style="flex-grow: 0; width: 387px; height: 533px; align-items: center; justify-content: center;">
+                <ui:VisualElement name="Button" style="width: 200px; height: 50px; align-items: center; justify-content: center; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;">
+                    <ui:Label text="Start Game&#10;"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Footer" style="height: 10%;"/>
+    </ui:VisualElement>
+</ui:UXML>
