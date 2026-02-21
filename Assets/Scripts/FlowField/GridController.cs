@@ -22,7 +22,20 @@ public class GridController : MonoBehaviour
     private void Start()
     {
         InitializeFlowField();
-        Instantiate(tilePrefab, this.transform.position, Quaternion.identity, this.transform);
+        GenerateTiles();
+    }
+
+    public void GenerateTiles()
+    {
+        var grid = curFlowField.grid;
+
+        for(int x = 0; x < grid.GetLength(0 ); x++)
+        {
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                var tile = Instantiate(tilePrefab, grid[x, y].worldPos, Quaternion.identity, this.transform);
+            }
+        }
     }
 
     public void OnMouseClick(InputValue value)
