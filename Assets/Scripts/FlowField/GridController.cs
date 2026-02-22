@@ -6,8 +6,6 @@ using UnityEngine.InputSystem;
 
 public class GridController : MonoBehaviour
 {
-    [SerializeField]
-    private Transform tilePrefab;
 
     public Vector2Int gridSize;
     public float cellRadius = 0.5f;
@@ -22,20 +20,6 @@ public class GridController : MonoBehaviour
     private void Start()
     {
         InitializeFlowField();
-        GenerateTiles();
-    }
-
-    public void GenerateTiles()
-    {
-        var grid = curFlowField.grid;
-
-        for(int x = 0; x < grid.GetLength(0 ); x++)
-        {
-            for (int y = 0; y < grid.GetLength(1); y++)
-            {
-                var tile = Instantiate(tilePrefab, grid[x, y].worldPos, Quaternion.identity, this.transform);
-            }
-        }
     }
 
     public void OnMouseClick(InputValue value)
@@ -55,7 +39,7 @@ public class GridController : MonoBehaviour
             );
             Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(mousePos);
             Cell destinationCell = curFlowField.GetCellFromWorldPos(worldMousePos);
-            curFlowField.CreateIntegrationField(destinationCell);
+            curFlowField.CreateIntegrationField(destinationCell);  //TODO: hier in alt
 
             curFlowField.CreateFlowField();
 
