@@ -476,7 +476,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c70f486e056e2814399beba4282ad823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridManager
-  tilePrefab: {fileID: 5358046952952815212, guid: bedd7c18f05ba6247918b154d61d226b, type: 3}
+  coordinatesVisible: 0
+  directionsVisible: 0
+  tilePrefab: {fileID: 5019149233644173478, guid: bedd7c18f05ba6247918b154d61d226b, type: 3}
   gridSize: {x: 30, y: 30}
 --- !u!1 &1544674493
 GameObject:
