@@ -6,7 +6,8 @@ public class Tile : MonoBehaviour
     public Vector2Int gridIndex;
     public byte cost = 1;
     public ushort bestCost = ushort.MaxValue;
-    public GridDirection bestDirection = GridDirection.None;
+
+    public bool isBlocked;
 
     public void IncreaseCost(int amnt)
     {

@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class FlowFieldManager
 {
-    public List<Tile> tiles;
+    public Tile[,] tiles;
     public Vector2Int gridSize { get; private set; }
     public Tile destinationTile;
     public float cellRadius { get; private set; } = 1f;
 
-    public FlowFieldManager(List<Tile> tiles)
+    private Vector2Int[] Directions = new Vector2Int[]
+    {
+        new Vector2Int(0, 1), //up
+        new Vector2Int(1, 0), //right
+        new Vector2Int(0, -1), //down
+        new Vector2Int(-1, 0) //left
+    };
+
+    public FlowFieldManager(Tile[,] tiles)
     {
         this.tiles = tiles;
     }
@@ -38,31 +46,35 @@ public class FlowFieldManager
         }
     }
 
-    //TODO: weiter hier
-    public void CreateIntegrationField(Tile _destinationTile)
+    public void CreateIntegrationField(Tile targetTile)
     {
-        destinationTile = _destinationTile;
+        Queue<Tile> queue = new Queue<Tile>();
 
-        destinationTile.cost = 0;
-        destinationTile.bestCost = 0;
+        targetTile.bestCost = 0;
 
-        Queue<Tile> cellsToCheck = new Queue<Tile>();
+        queue.Enqueue(targetTile);
 
-        cellsToCheck.Enqueue(destinationTile);
-
-        while (cellsToCheck.Count > 0)
+        while (queue.Count > 0)
         {
-            Tile curCell = cellsToCheck.Dequeue();
-            List<Tile> curNeighbors = GetNeighborCells(curCell.gridIndex, GridDirection.CardinalDirections);
-            foreach (Tile curNeighbor in curNeighbors)
+            Tile curTile = queue.Dequeue();
+
+            foreach (var dir in Directions)
             {
-                if (curNeighbor.cost == byte.MaxValue) { continue; }
-                if (curNeighbor.cost + curCell.bestCost < curNeighbor.bestCost)
+                Tile neighbor = GetTileAtRelativePos(curTile.gridIndex, dir);
+
+                if (neighbor is null || neighbor.isBlocked)
+                    continue;
+
+                int newCost = curTile.bestCost + neighbor.cost;
+
+                if(newCost < neighbor.bestCost)
                 {
-                    curNeighbor.bestCost = (ushort)(curNeighbor.cost + curCell.bestCost);
-                    cellsToCheck.Enqueue(curNeighbor);
+                    neighbor.bestCost = (ushort)newCost;
+                    queue.Enqueue(neighbor);
                 }
+
             }
+            
         }
     }
 
@@ -70,37 +82,11 @@ public class FlowFieldManager
     {
         foreach (Tile curTile in tiles)
         {
-            List<Tile> curNeighbors = GetNeighborCells(curTile.gridIndex, GridDirection.AllDirections);
 
-            int bestCost = curTile.bestCost;
-
-            foreach (Tile curNeighbor in curNeighbors)
-            {
-                if (curNeighbor.bestCost < bestCost)
-                {
-                    bestCost = curNeighbor.bestCost;
-                    curTile.bestDirection = GridDirection.GetDirectionFromV2I(curNeighbor.gridIndex - curTile.gridIndex);
-                }
-            }
         }
     }
 
-    private List<Tile> GetNeighborCells(Vector2Int nodeIndex, List<GridDirection> directions)
-    {
-        List<Tile> neighborTile = new List<Tile>();
-
-        foreach (Vector2Int curDirection in directions)
-        {
-            Tile newNeighbor = GetCellAtRelativePos(nodeIndex, curDirection);
-            if (newNeighbor != null)
-            {
-                neighborTile.Add(newNeighbor);
-            }
-        }
-        return neighborTile;
-    }
-
-    private Tile GetCellAtRelativePos(Vector2Int orignPos, Vector2Int relativePos)
+    private Tile GetTileAtRelativePos(Vector2Int orignPos, Vector2Int relativePos)
     {
         Vector2Int finalPos = orignPos + relativePos;
 
@@ -109,19 +95,6 @@ public class FlowFieldManager
             return null;
         }
 
-        else { return tiles.First(t => t.gridIndex == finalPos); }
+        return tiles[finalPos.x, finalPos.y];
     }
-
-    //public Cell GetCellFromWorldPos(Vector3 worldPos)
-    //{
-    //    float percentX = worldPos.x / (gridSize.x * cellDiameter);
-    //    float percentY = worldPos.z / (gridSize.y * cellDiameter);
-
-    //    percentX = Mathf.Clamp01(percentX);
-    //    percentY = Mathf.Clamp01(percentY);
-
-    //    int x = Mathf.Clamp(Mathf.FloorToInt((gridSize.x) * percentX), 0, gridSize.x - 1);
-    //    int y = Mathf.Clamp(Mathf.FloorToInt((gridSize.y) * percentY), 0, gridSize.y - 1);
-    //    return grid[x, y];
-    //}
 }
